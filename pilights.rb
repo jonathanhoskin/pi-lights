@@ -4,12 +4,7 @@ require 'eventmachine'
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each {|file| require file }
 
 class PiLights
-
-  include StateMachine
-  include WebSocketServer
-  include MessageHandler
-
-  # Times in seconds
+    # Times in seconds
   TRIGGER_WAIT_TIME = 90
   MIN_RETRIGGER_INTERVAL = 30
   SAFE_TRIGGER_INTERVAL = 2
@@ -23,6 +18,10 @@ class PiLights
   # SENSORS = [0,1,4,14,15]
   # SENSORS = [0,1,4,15]
   SWITCHES = [9,10,25]
+
+  include StateMachine
+  include WebSocketServer
+  include MessageHandler
 
   def initialize
       @last_trigger = Time.now - SAFE_TRIGGER_INTERVAL
