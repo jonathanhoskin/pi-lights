@@ -116,7 +116,7 @@ class PiLights
     puts "Turn all off at #{Time.now}"
     LIGHT_OUTPUTS.each do |output|
       # @gp.write(output,LOW)
-      `gpio -g write #{output} 1`
+      `gpio -g write #{output} 0`
     end
   end
 end
