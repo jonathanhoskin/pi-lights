@@ -40,6 +40,7 @@ def run
     @last_trigger = Time.now - SAFE_TRIGGER_INTERVAL
     @pin_states = {}
     @gp = WiringPi::GPIO.new(WPI_MODE_SYS)
+
     setup_lights
     setup_sensors
     setup_switches
@@ -57,16 +58,16 @@ end
 def setup_sensors
   SENSORS.each do |sensor|
     setup_sensor_pin_state(sensor)
-    # @gp.mode(sensor,INPUT)
     `gpio export #{sensor} in`
+    @gp.mode(sensor,INPUT)
     `gpio -g mode #{sensor} up`
   end
 end
 
 def setup_switches
   SWITCHES.each do |switch|
-    # @gp.mode(switch,INPUT)
     `gpio export #{switch} in`
+    @gp.mode(switch,INPUT)
     `gpio -g mode #{switch} up`
   end
 end
