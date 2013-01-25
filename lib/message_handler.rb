@@ -18,7 +18,7 @@ module MessageHandler
 
   def handle_off_data(data,ws)
     puts "Data in handle OFF: #{data}"
-    turn_all_on if data["off"] == "all"
+    turn_all_off if data["off"] == "all"
     data["off"].each { |output| turn_off_output(output) } unless data["off"] == "all"
     ws.send "Turned Off"
   end
