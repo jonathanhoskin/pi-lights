@@ -26,7 +26,8 @@ class PiLights
   def initialize
     @connected_websockets = {}
     @last_trigger = Time.now - SAFE_TRIGGER_INTERVAL
-    last_trigger_pin = nil
+    @last_trigger_pin = nil
+    @light_countdown_timer
     @pin_states = {}
     @gp = WiringPi::GPIO.new(WPI_MODE_SYS)
 
@@ -85,7 +86,7 @@ class PiLights
     STDOUT.flush
     SENSORS.each do |sensor|
       state = `gpio -g read #{sensor}`.to_i
-      trigger_run_timer(sensor) if state == SENSOR_PIN_STATE_OFF
+      trigger_run_timer(sensor) if state == SENSOR_PIN_STATE_ON
     end
   end
 
