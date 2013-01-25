@@ -9,6 +9,7 @@ module MessageHandler
   end
 
   def handle_on_data(data)
+    puts "Data: #{data}"
     turn_all_on if data[:on] == "all"
     data[:on].each { |output| turn_on_output(output) }
   end
