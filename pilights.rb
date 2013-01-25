@@ -50,6 +50,7 @@ class PiLights
       }
 
       init_websocket_server
+      add_sensor_loop
     end
   end
 
