@@ -24,14 +24,15 @@ class PiLights
   include MessageHandler
 
   def initialize
-      @last_trigger = Time.now - SAFE_TRIGGER_INTERVAL
-      last_trigger_pin = nil
-      @pin_states = {}
-      @gp = WiringPi::GPIO.new(WPI_MODE_SYS)
+    @connected_websockets = {}
+    @last_trigger = Time.now - SAFE_TRIGGER_INTERVAL
+    last_trigger_pin = nil
+    @pin_states = {}
+    @gp = WiringPi::GPIO.new(WPI_MODE_SYS)
 
-      setup_lights
-      setup_sensors
-      setup_switches
+    setup_lights
+    setup_sensors
+    setup_switches
   end
 
   def run

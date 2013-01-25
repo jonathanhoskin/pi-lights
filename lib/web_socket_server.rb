@@ -4,6 +4,8 @@ module WebSocketServer
 
   def init_websocket_server
     EM::WebSocket.run(:host => "0.0.0.0", :port => 8090) do |ws|
+      @connected_websockets[Time.now] = ws
+
       ws.onopen { |handshake|
         puts "WS: WebSocket connection open"
 
@@ -11,7 +13,8 @@ module WebSocketServer
         # path, query_string, origin, headers
 
         # Publish message to the client
-        ws.send "WS: Hello Client, you connected to #{handshake.path}"
+        ws.send "WS: Hello Client, you connected from #{handshake.origin}"
+        ws.send "WS: Connected clients: @connected_websockets"
       }
 
       ws.onclose {
