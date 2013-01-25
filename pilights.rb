@@ -4,7 +4,7 @@ require 'eventmachine'
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each {|file| require file }
 
 include StateMachine
-include WebScoketServer
+include WebSocketServer
 
 # Times in seconds
 TRIGGER_WAIT_TIME = 90
