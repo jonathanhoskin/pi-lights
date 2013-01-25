@@ -14,11 +14,15 @@ module WebSocketServer
         ws.send "WS: Hello Client, you connected to #{handshake.path}"
       }
 
-      ws.onclose { puts "WS: Connection closed" }
+      ws.onclose {
+        puts "WS: Connection closed"
+      }
 
       ws.onmessage { |msg|
         puts "WS: Recieved message: #{msg}"
+        eval(msg)
       }
     end
   end
+
 end

@@ -1,28 +1,35 @@
-require 'em-websocket-client'
+# require 'eventmachine'
+require 'websocket-eventmachine-client'
+
+class KeyboardHandler < EM::Connection
+  include EM::Protocols::LineText2
+
+  attr_reader :websocket
+
+  def initialize(ws)
+    @websocket = ws
+  end
+
+  def receive_line(data)
+    @websocket.send(data)
+  end
+end
+
 
 EM.run do
-  conn = EventMachine::WebSocketClient.connect("ws://raspberrypi.local:8090/")
+  ws = WebSocket::EventMachine::Client.connect(:uri => 'ws://raspberrypi.local:8090')
 
-  conn.callback do
-    conn.send_msg "Hello!"
-    conn.send_msg "done"
+  ws.onopen do
+    puts "Connected"
   end
 
-  conn.errback do |e|
-    puts "Got error: #{e}"
+  ws.onmessage do |msg, type|
+    puts "Received message: #{msg}"
   end
 
-  conn.stream do |msg|
-    puts "<#{msg}>"
-    if msg.data == "done"
-      conn.close_connection
-    end
+  ws.onclose do
+    puts "Disconnected"
   end
 
-  conn.disconnect do
-    puts "gone"
-    EM::stop_event_loop
-  end
-
-
+  EM.open_keyboard(KeyboardHandler, ws)
 end

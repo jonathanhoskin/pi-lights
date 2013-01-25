@@ -7,18 +7,18 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
-    addressable (2.3.2)
     em-websocket (0.4.0)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.5.3)
-    em-websocket-client (0.1.1)
-      eventmachine
-      libwebsocket
     http_parser.rb (0.5.3)
-    libwebsocket (0.1.7.1)
-      addressable
-      websocket
     websocket (1.0.6)
+    websocket-eventmachine-base (1.0.2)
+      eventmachine (~> 1.0)
+      websocket (~> 1.0)
+      websocket-native (~> 1.0)
+    websocket-eventmachine-client (1.0.1)
+      websocket-eventmachine-base (~> 1.0)
+    websocket-native (1.0.0)
     wiringpi (1.1.0)
 
 PLATFORMS
@@ -26,6 +26,6 @@ PLATFORMS
 
 DEPENDENCIES
   em-websocket
-  em-websocket-client
   eventmachine!
+  websocket-eventmachine-client
   wiringpi
