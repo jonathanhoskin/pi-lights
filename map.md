@@ -1,0 +1,118 @@
+# Map Sensor/Light => Header/GPIO/Pin 
+
+## Sensors
+
+<table>
+    <tr>
+        <td>Location</td>
+        <td>Header</td>
+        <td>RPi GPIO</td>
+        <td>WiringPi Pin</td>
+    </tr>
+    <tr>
+        <td>NW</td>
+        <td>3</td>
+        <td>0</td>
+        <td>8</td>
+    </tr>
+    <tr>
+        <td>NE</td>
+        <td>5</td>
+        <td>1</td>
+        <td>9</td>
+    </tr>
+    <tr>
+        <td>SE</td>
+        <td>7</td>
+        <td>4</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>Porch (P)</td>
+        <td>8</td>
+        <td>14</td>
+        <td>15</td>
+    </tr>
+    <tr>
+        <td>Garage (G)</td>
+        <td>10</td>
+        <td>15</td>
+        <td>16</td>
+    </tr>
+</table>
+
+## Lights
+
+<table>
+    <tr>
+        <td>Location</td>
+        <td>Header</td>
+        <td>RPi GPIO</td>
+        <td>WiringPi Pin</td>
+    </tr>
+    <tr>
+        <td>NW</td>
+        <td>23</td>
+        <td>11</td>
+        <td>14</td>
+    </tr>
+    <tr>
+        <td>NE</td>
+        <td>12</td>
+        <td>18</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>SE</td>
+        <td>24</td>
+        <td>8</td>
+        <td>10</td>
+    </tr>
+    <tr>
+        <td>Porch (P)</td>
+        <td>15</td>
+        <td>22</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Garage (G)</td>
+        <td>16</td>
+        <td>23</td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>Deck (D)</td>
+        <td>18</td>
+        <td>24</td>
+        <td>5</td>
+    </tr>
+</table>
+
+## Switches
+
+<table>
+      <tr>
+        <td>Location</td>
+        <td>Header</td>
+        <td>RPi GPIO</td>
+        <td>WiringPi Pin</td>
+    </tr>
+    <tr>
+        <td>Deck (DC)</td>
+        <td>19</td>
+        <td>10</td>
+        <td>12</td>
+    </tr>
+    <tr>
+        <td>Porch (PS)</td>
+        <td>21</td>
+        <td>9</td>
+        <td>13</td>
+    </tr>
+    <tr>
+        <td>Main Override</td>
+        <td>22</td>
+        <td>25</td>
+        <td>6</td>
+    </tr>
+</table>
