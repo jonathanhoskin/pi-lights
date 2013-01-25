@@ -22,7 +22,7 @@ module StateMachine
     # Going from OFF -> ON from cold
     if ps[:pin_state] == PiLights::SENSOR_PIN_STATE_OFF && !ps[:cancelled]
       set_pin_state(pin, {
-        :pin_state => PiLights::PIN_STATE_ON,
+        :pin_state => PiLights::SENSOR_PIN_STATE_ON,
         :start_at => Time.now,
         :on_count => 1
       })
@@ -36,7 +36,7 @@ module StateMachine
     # Allow cancelled pin to retrigger if it has hit the retrigger threshold
     if ps[:cancelled] && retrigger_threshold > Time.now
       set_pin_state(pin, {
-        :pin_state => PiLights::PIN_STATE_ON,
+        :pin_state => PiLights::SENSOR_PIN_STATE_ON,
         :start_at => Time.now,
         :on_count => 1,
         :cancelled => false
