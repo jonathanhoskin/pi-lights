@@ -4,7 +4,8 @@ require 'eventmachine'
 Dir[File.dirname(__FILE__) + '/lib/*.rb'].each {|file| require file }
 
 class PiLights
-    # Times in seconds
+  # Times in seconds
+  POLL_LOOP_TIME = 0.1
   TRIGGER_WAIT_TIME = 90
   MIN_RETRIGGER_INTERVAL = 30
   SAFE_TRIGGER_INTERVAL = 2
@@ -78,7 +79,7 @@ class PiLights
   end
 
   def add_sensor_loop
-    @sensor_periodic_timer_loop = EventMachine.add_periodic_timer(0.5) { poll_sensor_pins }
+    @sensor_periodic_timer_loop = EventMachine.add_periodic_timer(POLL_LOOP_TIME) { poll_sensor_pins }
   end
 
   def poll_sensor_pins
