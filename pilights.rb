@@ -48,7 +48,6 @@ class PiLights
       }
 
       init_websocket_server
-
     end
   end
 
