@@ -9,8 +9,8 @@ class PiLights
   MIN_RETRIGGER_INTERVAL = 30
   SAFE_TRIGGER_INTERVAL = 2
 
-  PIN_STATE_OFF = 0
-  PIN_STATE_ON = 1
+  SENSOR_PIN_STATE_OFF = 1
+  SENSOR_PIN_STATE_ON = 0
 
   LIGHT_OUTPUTS = [11,18,8,22,23,24]
   SENSORS = [0,1,15]
@@ -84,7 +84,8 @@ class PiLights
     print "\rPolling sensor pins at: #{Time.now}"
     STDOUT.flush
     SENSORS.each do |sensor|
-      trigger_run_timer(sensor) if @gp.read(sensor) == PIN_STATE_ON
+      state = `gpio -g read #{sensor}`.to_i
+      trigger_run_timer(sensor) if state == SENSOR_PIN_STATE_ON
     end
   end
 

@@ -1,7 +1,7 @@
 module StateMachine
 
   def setup_sensor_pin_state(pin)
-    @pin_states[pin] = {:pin_state => PiLights::PIN_STATE_OFF, :start_at => nil, :on_count => 0, :cancelled => false}
+    @pin_states[pin] = {:pin_state => PiLights::SENSOR_PIN_STATE_OFF, :start_at => nil, :on_count => 0, :cancelled => false}
   end
   
   def set_pin_state(pin,state)
@@ -20,7 +20,7 @@ module StateMachine
     ps = @pin_states[pin]
 
     # Going from OFF -> ON from cold
-    if ps[:pin_state] == PiLights::PIN_STATE_OFF && !ps[:cancelled]
+    if ps[:pin_state] == PiLights::SENSOR_PIN_STATE_OFF && !ps[:cancelled]
       set_pin_state(pin, {
         :pin_state => PiLights::PIN_STATE_ON,
         :start_at => Time.now,
@@ -54,7 +54,7 @@ module StateMachine
     end
 
     # This is probably a valid retrigger
-    if ps[:pin_state] == PiLights::PIN_STATE_ON && Time.now > retrigger_threshold
+    if ps[:pin_state] == PiLights::SENSOR_PIN_STATE_ON && Time.now > retrigger_threshold
       set_pin_state(pin, { 
         :start_at => Time.now,
         :on_count => 1
@@ -66,7 +66,7 @@ module StateMachine
     end
 
     # This is probably a trigger from the duty cycle, ignore
-    if ps[:pin_state] == PiLights::PIN_STATE_ON
+    if ps[:pin_state] == PiLights::SENSOR_PIN_STATE_ON
       ps[:on_count] += 1
       diff = Time.now - ps[:start_at]
       per_second = ps[:on_count] / diff
@@ -87,9 +87,9 @@ module StateMachine
     end_at = ps[:start_at] + PiLights::MIN_RETRIGGER_INTERVAL
 
     # Have gone past the allowed end time for this pin
-    if ps[:pin_state] == PIN_STATE_ON && Time.now > end_at
+    if ps[:pin_state] == SENSOR_PIN_STATE_ON && Time.now > end_at
       set_pin_state(pin, { 
-        :pin_state => PIN_STATE_OFF,
+        :pin_state => SENSOR_PIN_STATE_OFF,
         :start_at => nil,
         :on_count => 0,
         :cancelled => false
@@ -99,7 +99,7 @@ module StateMachine
     end
 
     # Have not yet hit the end time for this pin
-    if ps[:pin_state] == PiLights::PIN_STATE_ON && Time.now < end_at
+    if ps[:pin_state] == PiLights::SENSOR_PIN_STATE_ON && Time.now < end_at
       # diff = Time.now - ps[:start_at]
       # per_second = count / diff
       # puts "Ignored pin set off"
