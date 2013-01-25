@@ -50,8 +50,9 @@ end
 def setup_lights
   LIGHT_OUTPUTS.each do |output|
     `gpio export #{output} out`
+    `gpio -g write #{output} 0`
     # @gp.mode(output,OUTPUT)
-    @gp.write(output,LOW)
+    # @gp.write(output,LOW)
   end
 end
 
@@ -59,7 +60,7 @@ def setup_sensors
   SENSORS.each do |sensor|
     setup_sensor_pin_state(sensor)
     `gpio export #{sensor} in`
-    @gp.mode(sensor,INPUT)
+    # @gp.mode(sensor,INPUT)
     `gpio -g mode #{sensor} up`
   end
 end
@@ -67,7 +68,7 @@ end
 def setup_switches
   SWITCHES.each do |switch|
     `gpio export #{switch} in`
-    @gp.mode(switch,INPUT)
+    # @gp.mode(switch,INPUT)
     `gpio -g mode #{switch} up`
   end
 end
@@ -102,14 +103,16 @@ end
 def turn_all_on
   puts "Turn all on at: #{Time.now}"
   LIGHT_OUTPUTS.each do |output|
-    @gp.write(output,HIGH)
+    # @gp.write(output,HIGH)
+    `gpio -g write #{output} 1`
   end
 end
 
 def turn_all_off
   puts "Turn all off at #{Time.now}"
   LIGHT_OUTPUTS.each do |output|
-    @gp.write(output,LOW)
+    # @gp.write(output,LOW)
+    `gpio -g write #{output} 1`
   end
 end
 
