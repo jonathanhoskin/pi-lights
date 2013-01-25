@@ -85,7 +85,7 @@ class PiLights
     STDOUT.flush
     SENSORS.each do |sensor|
       state = `gpio -g read #{sensor}`.to_i
-      trigger_run_timer(sensor) if state == SENSOR_PIN_STATE_ON
+      trigger_run_timer(sensor) if state == SENSOR_PIN_STATE_OFF
     end
   end
 
@@ -93,7 +93,6 @@ class PiLights
     puts "Triggered by pin #{pin} at #{Time.now}"
 
     if set_pin_state_on(pin)
-
       unless @light_countdown_timer.nil?
         puts "Cancelling last timer, replacing with new timer"
         set_pin_state(@last_trigger_pin,{:cancelled => true}) unless @last_trigger_pin.nil?
