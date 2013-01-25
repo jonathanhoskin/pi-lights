@@ -94,7 +94,7 @@ class PiLights
     puts "Triggered by pin #{pin} at #{Time.now}"
 
     if set_pin_state_on(pin)
-      unless @light_countdown_timer.nil?
+      if @light_countdown_timer.respond_to?(:cancel)
         puts "Cancelling last timer, replacing with new timer"
         set_pin_state(@last_trigger_pin,{:cancelled => true}) unless @last_trigger_pin.nil?
         @light_countdown_timer.cancel
@@ -104,7 +104,6 @@ class PiLights
 
       @light_countdown_timer = EventMachine.add_timer(TRIGGER_WAIT_TIME) {
         @last_trigger_pin = nil
-        @light_countdown_timer = nil
         turn_all_off if set_pin_state_off(pin)
       }
 
