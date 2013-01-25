@@ -7,6 +7,7 @@ class PiLights
 
   include StateMachine
   include WebSocketServer
+  include MessageHandler
 
   # Times in seconds
   TRIGGER_WAIT_TIME = 90
@@ -25,6 +26,7 @@ class PiLights
 
   def initialize
       @last_trigger = Time.now - SAFE_TRIGGER_INTERVAL
+      last_trigger_pin = nil
       @pin_states = {}
       @gp = WiringPi::GPIO.new(WPI_MODE_SYS)
 
@@ -55,8 +57,6 @@ class PiLights
     LIGHT_OUTPUTS.each do |output|
       `gpio export #{output} out`
       `gpio -g write #{output} 0`
-      # @gp.mode(output,OUTPUT)
-      # @gp.write(output,LOW)
     end
   end
 
@@ -64,7 +64,6 @@ class PiLights
     SENSORS.each do |sensor|
       setup_sensor_pin_state(sensor)
       `gpio export #{sensor} in`
-      # @gp.mode(sensor,INPUT)
       `gpio -g mode #{sensor} up`
     end
   end
@@ -72,13 +71,8 @@ class PiLights
   def setup_switches
     SWITCHES.each do |switch|
       `gpio export #{switch} in`
-      # @gp.mode(switch,INPUT)
       `gpio -g mode #{switch} up`
     end
-  end
-
-  def setup_sensor_pin_state(pin)
-    @pin_states[pin] = {:pin_state => PIN_STATE_OFF, :start_at => nil, :on_count => 0, :killed => false}
   end
 
   def add_sensor_loop
@@ -96,27 +90,44 @@ class PiLights
   def trigger_run_timer(pin)
     puts "Triggered by pin #{pin} at #{Time.now}"
 
-    if set_pin_state_on(pin)    
-      @light_countdown_timer.cancel unless @light_countdown_timer.nil?
+    if set_pin_state_on(pin)
 
-      @light_countdown_timer = EventMachine.add_timer(TRIGGER_WAIT_TIME) { turn_all_off }
+      unless @light_countdown_timer.nil?
+        puts "Cancelling last timer, replacing with new timer"
+        set_pin_state(@last_trigger_pin,{:cancelled => true}) unless @last_trigger_pin.nil?
+        @light_countdown_timer.cancel
+      end
+
+      @last_trigger_pin = pin
+
+      @light_countdown_timer = EventMachine.add_timer(TRIGGER_WAIT_TIME) {
+        @last_trigger_pin = nil
+        turn_all_off
+      }
+
       turn_all_on
     end
+  end
+
+  def turn_output_on(output)
+    `gpio -g write #{output} 1`
   end
 
   def turn_all_on
     puts "Turn all on at: #{Time.now}"
     LIGHT_OUTPUTS.each do |output|
-      # @gp.write(output,HIGH)
-      `gpio -g write #{output} 1`
+      turn_output_on(output)
     end
+  end
+
+  def turn_output_off(output)
+    `gpio -g write #{output} 0`
   end
 
   def turn_all_off
     puts "Turn all off at #{Time.now}"
     LIGHT_OUTPUTS.each do |output|
-      # @gp.write(output,LOW)
-      `gpio -g write #{output} 0`
+      turn_output_off(output)
     end
   end
 end

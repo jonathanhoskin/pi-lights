@@ -20,7 +20,7 @@ module WebSocketServer
 
       ws.onmessage { |msg|
         puts "WS: Recieved message: #{msg}"
-        eval(msg) if self.respond_to?(msg)
+        handle_websocket_message(msg,ws)
       }
     end
   end

@@ -1,4 +1,8 @@
 module StateMachine
+
+  def setup_sensor_pin_state(pin)
+    @pin_states[pin] = {:pin_state => PIN_STATE_OFF, :start_at => nil, :on_count => 0, :cancelled => false}
+  end
   
   def set_pin_state(pin,state)
   @pin_states[pin].merge!(state)
@@ -6,7 +10,7 @@ module StateMachine
 
   def set_pin_state_on(pin)
     safe_trigger_threshold = Time.now - SAFE_TRIGGER_INTERVAL
-    if @last_trigger > safe_trigger_threshold
+    if @last_trigger > safe_trigger_threshold && pin == @last_trigger_pin
       # print "\r"
       # print "Only just got triggered, will not turn on again: #{safe_trigger_threshold}"
       # STDOUT.flush
@@ -16,7 +20,7 @@ module StateMachine
     ps = @pin_states[pin]
 
     # Going from OFF -> ON from cold
-    if ps[:pin_state] == PIN_STATE_OFF && !ps[:killed]
+    if ps[:pin_state] == PIN_STATE_OFF && !ps[:cancelled]
       set_pin_state(pin, {
         :pin_state => PIN_STATE_ON,
         :start_at => Time.now,
@@ -29,23 +33,23 @@ module StateMachine
 
     retrigger_threshold = ps[:start_at] + MIN_RETRIGGER_INTERVAL
 
-    # Allow killed pin to retrigger if it has hit the retrigger threshold
-    if ps[:killed] && retrigger_threshold > Time.now
+    # Allow cancelled pin to retrigger if it has hit the retrigger threshold
+    if ps[:cancelled] && retrigger_threshold > Time.now
       set_pin_state(pin, {
         :pin_state => PIN_STATE_ON,
         :start_at => Time.now,
         :on_count => 1,
-        :killed => false
+        :cancelled => false
       })
-      puts "Will retrigger from previous killed pin: #{pin}"
+      puts "Will retrigger from previous cancelled pin: #{pin}"
       @last_trigger = Time.now
       return true
     end
 
-    # Don't allow killed pin to retrigger until it hits the retrigger threshold
-    if ps[:killed] && Time.now < retrigger_threshold
+    # Don't allow cancelled pin to retrigger until it hits the retrigger threshold
+    if ps[:cancelled] && Time.now < retrigger_threshold
       set_pin_state(pin, { :on_count => (ps[:on_count] + 1) })
-      # puts "Will not yet retrigger from previous killed pin: #{pin}"
+      # puts "Will not yet retrigger from previous cancelled pin: #{pin}"
       return false
     end
 
@@ -88,7 +92,7 @@ module StateMachine
         :pin_state => PIN_STATE_OFF,
         :start_at => nil,
         :on_count => 0,
-        :killed => false
+        :cancelled => false
       })
       puts "Can turn off from pin: #{pin}"
       return true
