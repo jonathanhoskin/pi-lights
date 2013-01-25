@@ -1,7 +1,7 @@
 module StateMachine
 
   def setup_sensor_pin_state(pin)
-    @pin_states[pin] = {:pin_state => PIN_STATE_OFF, :start_at => nil, :on_count => 0, :cancelled => false}
+    @pin_states[pin] = {:pin_state => PiLights::PIN_STATE_OFF, :start_at => nil, :on_count => 0, :cancelled => false}
   end
   
   def set_pin_state(pin,state)
@@ -9,7 +9,7 @@ module StateMachine
   end
 
   def set_pin_state_on(pin)
-    safe_trigger_threshold = Time.now - SAFE_TRIGGER_INTERVAL
+    safe_trigger_threshold = Time.now - PiLights::SAFE_TRIGGER_INTERVAL
     if @last_trigger > safe_trigger_threshold && pin == @last_trigger_pin
       # print "\r"
       # print "Only just got triggered, will not turn on again: #{safe_trigger_threshold}"
@@ -20,9 +20,9 @@ module StateMachine
     ps = @pin_states[pin]
 
     # Going from OFF -> ON from cold
-    if ps[:pin_state] == PIN_STATE_OFF && !ps[:cancelled]
+    if ps[:pin_state] == PiLights::PIN_STATE_OFF && !ps[:cancelled]
       set_pin_state(pin, {
-        :pin_state => PIN_STATE_ON,
+        :pin_state => PiLights::PIN_STATE_ON,
         :start_at => Time.now,
         :on_count => 1
       })
@@ -31,12 +31,12 @@ module StateMachine
       return true
     end
 
-    retrigger_threshold = ps[:start_at] + MIN_RETRIGGER_INTERVAL
+    retrigger_threshold = ps[:start_at] + PiLights::MIN_RETRIGGER_INTERVAL
 
     # Allow cancelled pin to retrigger if it has hit the retrigger threshold
     if ps[:cancelled] && retrigger_threshold > Time.now
       set_pin_state(pin, {
-        :pin_state => PIN_STATE_ON,
+        :pin_state => PiLights::PIN_STATE_ON,
         :start_at => Time.now,
         :on_count => 1,
         :cancelled => false
@@ -54,7 +54,7 @@ module StateMachine
     end
 
     # This is probably a valid retrigger
-    if ps[:pin_state] == PIN_STATE_ON && Time.now > retrigger_threshold
+    if ps[:pin_state] == PiLights::PIN_STATE_ON && Time.now > retrigger_threshold
       set_pin_state(pin, { 
         :start_at => Time.now,
         :on_count => 1
@@ -66,7 +66,7 @@ module StateMachine
     end
 
     # This is probably a trigger from the duty cycle, ignore
-    if ps[:pin_state] == PIN_STATE_ON
+    if ps[:pin_state] == PiLights::PIN_STATE_ON
       ps[:on_count] += 1
       diff = Time.now - ps[:start_at]
       per_second = ps[:on_count] / diff
@@ -84,7 +84,7 @@ module StateMachine
 
   def set_pin_state_off(pin)
     ps = @pin_states[pin]
-    end_at = ps[:start_at] + MIN_RETRIGGER_INTERVAL
+    end_at = ps[:start_at] + PiLights::MIN_RETRIGGER_INTERVAL
 
     # Have gone past the allowed end time for this pin
     if ps[:pin_state] == PIN_STATE_ON && Time.now > end_at
@@ -99,7 +99,7 @@ module StateMachine
     end
 
     # Have not yet hit the end time for this pin
-    if ps[:pin_state] == PIN_STATE_ON && Time.now < end_at
+    if ps[:pin_state] == PiLights::PIN_STATE_ON && Time.now < end_at
       # diff = Time.now - ps[:start_at]
       # per_second = count / diff
       # puts "Ignored pin set off"
