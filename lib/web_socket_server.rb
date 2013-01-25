@@ -14,7 +14,7 @@ module WebSocketServer
 
         # Publish message to the client
         ws.send "WS: Hello Client, you connected from #{handshake.origin}"
-        ws.send "WS: Connected clients: @connected_websockets"
+        ws.send "WS: Connected clients: #{@connected_websockets}"
       }
 
       ws.onclose {
