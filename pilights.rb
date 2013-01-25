@@ -1,6 +1,8 @@
 require 'wiringpi'
 require 'eventmachine'
 
+Dir[File.dirname(__FILE__) + '/lib/*.rb'].each {|file| require file }
+
 include StateMachine
 include WebScoketServer
 
