@@ -12,14 +12,14 @@ module MessageHandler
   def handle_on_data(data,ws)
     puts "Data in handle ON: #{data}"
     turn_all_on if data["on"] == "all"
-    data["on"].each { |output| turn_on_output(output) }
+    data["on"].each { |output| turn_on_output(output) } unless data["on"] == "all"
     ws.send "Turned On"
   end
 
   def handle_off_data(data,ws)
     puts "Data in handle OFF: #{data}"
     turn_all_on if data["off"] == "all"
-    data["off"].each { |output| turn_off_output(output) }
+    data["off"].each { |output| turn_off_output(output) } unless data["off"] == "all"
     ws.send "Turned Off"
   end
 
