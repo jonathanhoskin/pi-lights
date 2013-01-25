@@ -29,6 +29,7 @@ EM.run do
 
   ws.onclose do
     puts "Disconnected"
+    abort()
   end
 
   EM.open_keyboard(KeyboardHandler, ws)
