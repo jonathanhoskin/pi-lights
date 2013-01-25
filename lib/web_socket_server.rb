@@ -4,9 +4,8 @@ module WebSocketServer
 
   def init_websocket_server
     EM::WebSocket.run(:host => "0.0.0.0", :port => 8090) do |ws|
-      @connected_websockets[Time.now] = ws
-
       ws.onopen { |handshake|
+        @connected_websockets[ws] = Time.now
         puts "WS: WebSocket connection open"
 
         # Access properties on the EM::WebSocket::Handshake object, e.g.
@@ -19,6 +18,7 @@ module WebSocketServer
 
       ws.onclose {
         puts "WS: Connection closed"
+        @connected_websockets.delete(ws)
       }
 
       ws.onmessage { |msg|
