@@ -87,9 +87,9 @@ module StateMachine
     end_at = ps[:start_at] + PiLights::MIN_RETRIGGER_INTERVAL
 
     # Have gone past the allowed end time for this pin
-    if ps[:pin_state] == SENSOR_PIN_STATE_ON && Time.now > end_at
+    if ps[:pin_state] == PiLights::SENSOR_PIN_STATE_ON && Time.now > end_at
       set_pin_state(pin, { 
-        :pin_state => SENSOR_PIN_STATE_OFF,
+        :pin_state => PiLights::SENSOR_PIN_STATE_OFF,
         :start_at => nil,
         :on_count => 0,
         :cancelled => false
