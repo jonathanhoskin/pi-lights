@@ -14,13 +14,6 @@
 
 @implementation PLViewController
 
-static NSInteger kOutputPinNW = 11;
-static NSInteger kOutputPinD = 24;
-static NSInteger kOutputPinNE = 11;
-static NSInteger kOutputPinSE = 11;
-static NSInteger kOutputPinP = 11;
-static NSInteger kOutputPinG = 11;
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     _dataMappingManager = [[PLDataMappingManager alloc] init];

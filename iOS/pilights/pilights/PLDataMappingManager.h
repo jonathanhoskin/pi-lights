@@ -25,4 +25,13 @@
 - (void)turnAllOutputsOn:(BOOL)outputOn;
 - (void)turnOutputOn:(BOOL)outputOn output:(NSInteger)output;
 
+typedef enum {
+    kOutputPinNW = 11,
+    kOutputPinD = 24,
+    kOutputPinNE = 18,
+    kOutputPinSE = 10,
+    kOutputPinP = 22,
+    kOutputPinG = 24,
+} kOutputPinConstants;
+
 @end
