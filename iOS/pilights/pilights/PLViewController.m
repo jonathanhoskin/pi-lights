@@ -14,16 +14,58 @@
 
 @implementation PLViewController
 
-- (void)viewDidLoad
-{
+static NSInteger kOutputPinNW = 11;
+static NSInteger kOutputPinD = 24;
+static NSInteger kOutputPinNE = 11;
+static NSInteger kOutputPinSE = 11;
+static NSInteger kOutputPinP = 11;
+static NSInteger kOutputPinG = 11;
+
+- (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    _dataMappingManager = [[PLDataMappingManager alloc] init];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (IBAction)switchChanged:(id)sender {
+    [_dataMappingManager turnAllOutputsOn:_onOffSwitch.on];
+}
+
+- (IBAction)nwChanged:(id)sender {
+    [_dataMappingManager turnOutputOn:YES output:kOutputPinNW];
+}
+
+- (IBAction)dChanged:(id)sender {
+    [_dataMappingManager turnOutputOn:YES output:kOutputPinD];
+}
+
+- (IBAction)neChanged:(id)sender {
+    [_dataMappingManager turnOutputOn:YES output:kOutputPinNE];
+}
+
+- (IBAction)seChanged:(id)sender {
+    [_dataMappingManager turnOutputOn:YES output:kOutputPinSE];
+}
+
+- (IBAction)pChanged:(id)sender {
+    [_dataMappingManager turnOutputOn:YES output:kOutputPinP];
+}
+
+- (IBAction)gChanged:(id)sender {
+    [_dataMappingManager turnOutputOn:YES output:kOutputPinG];
+}
+
+#pragma mark - PLDataMappingManagerDelegate
+
+- (void)didMapIncomingOutputData:(id)data {
+    
+}
+
+- (void)didMapIncomingSensorData:(id)data {
+    
+}
+
+- (void)didMapIncomingSwitchData:(id)data {
+    
 }
 
 @end
