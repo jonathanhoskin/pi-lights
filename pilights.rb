@@ -115,6 +115,7 @@ class PiLights
   end
 
   def turn_output_on(output)
+    puts "Turn on output: #{output}"
     `gpio -g write #{output} 1`
   end
 
@@ -126,6 +127,7 @@ class PiLights
   end
 
   def turn_output_off(output)
+    puts "Turn off output: #{output}"
     `gpio -g write #{output} 0`
   end
 
