@@ -129,6 +129,11 @@ class PiLights
   end
 
   def turn_all_off
+    if @manual_override
+      puts "Manual override is on, will not turn off automatically"
+      return
+    end
+
     puts "Turn all off at #{Time.now}"
     LIGHT_OUTPUTS.each do |output|
       turn_output_off(output)
