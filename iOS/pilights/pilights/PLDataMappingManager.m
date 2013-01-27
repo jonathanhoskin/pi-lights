@@ -20,8 +20,13 @@
     return self;
 }
 
+- (NSString*)allOutputPins {
+    return [NSString stringWithFormat:@"[%d,%d,%d,%d,%d,%d]",kOutputPinNW,kOutputPinD,kOutputPinNE,kOutputPinSE,kOutputPinP,kOutputPinG];
+}
+
 - (void)turnAllOutputsOn:(BOOL)outputOn {
-    [_webSocketManager.websocket send: (outputOn) ? @"{\"on\":\"all\"}" : @"{\"off\":\"all\"}"];
+    NSString *json = [NSString stringWithFormat:(outputOn) ? @"{\"on\":%@}" : @"{\"off\":%@}",[self allOutputPins]];
+    [_webSocketManager.websocket send:json];
 }
 
 - (void)turnOutputOn:(BOOL)outputOn output:(NSInteger)output {

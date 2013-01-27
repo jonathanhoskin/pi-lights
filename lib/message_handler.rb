@@ -11,17 +11,23 @@ module MessageHandler
 
   def handle_on_data(data,ws)
     puts "Data in handle ON: #{data}"
-    @manual_override = true
-    turn_all_on if data["on"] == "all"
-    data["on"].each { |output| turn_output_on(output) } unless data["on"] == "all"
+
+    data["on"].each do |output|
+      @manual_override_outputs << output
+      turn_output_on(output)
+    end
+    
     ws.send "Turned On: #{data["on"]}"
   end
 
   def handle_off_data(data,ws)
     puts "Data in handle OFF: #{data}"
-    # @manual_override = false
-    turn_all_off if data["off"] == "all"
-    data["off"].each { |output| turn_output_off(output) } unless data["off"] == "all"
+
+    data["off"].each do |output|
+      @manual_override_outputs.delete(output)
+      turn_output_off(output)
+    end
+
     ws.send "Turned Off"
   end
 

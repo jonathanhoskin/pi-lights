@@ -29,9 +29,9 @@ typedef enum {
     kOutputPinNW = 11,
     kOutputPinD = 24,
     kOutputPinNE = 18,
-    kOutputPinSE = 10,
+    kOutputPinSE = 8,
     kOutputPinP = 22,
-    kOutputPinG = 24,
+    kOutputPinG = 23,
 } kOutputPinConstants;
 
 @end

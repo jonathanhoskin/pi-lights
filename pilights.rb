@@ -25,6 +25,7 @@ class PiLights
   include MessageHandler
 
   def initialize
+    @manual_override_outputs = []
     @connected_websockets = {}
     @last_trigger = Time.now - SAFE_TRIGGER_INTERVAL
     @last_trigger_pin = nil
@@ -129,7 +130,7 @@ class PiLights
   end
 
   def turn_all_off
-    if @manual_override
+    if @manual_override_outputs.length > 0
       puts "Manual override is on, will not turn off automatically"
       return
     end
