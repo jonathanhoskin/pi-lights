@@ -106,6 +106,7 @@ class PiLights
       @light_countdown_timer = EventMachine.add_timer(TRIGGER_WAIT_TIME) {
         @last_trigger_pin = nil
         turn_all_off if set_pin_state_off(pin)
+        @light_countdown_timer = nil
       }
 
       turn_all_on
