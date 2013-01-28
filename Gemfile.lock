@@ -4,8 +4,9 @@ GIT
   specs:
     eventmachine (1.0.0)
 
-PATH
-  remote: /Users/jonathan/git/sunrisesunset-ruby
+GIT
+  remote: git://github.com/jonathanhoskin/sunrisesunset-ruby.git
+  revision: 46d34d828a95edd9d8a61c60feb3b1f83b4a7b1f
   specs:
     RubySunrise (0.3)
       tzinfo
