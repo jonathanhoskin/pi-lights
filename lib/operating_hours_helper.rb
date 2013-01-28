@@ -1,4 +1,4 @@
-require 'SolarEventCalculator'
+require 'solareventcalculator'
 
 module OperatingHoursHelper
 
