@@ -1,5 +1,3 @@
-require 'activesupport'
-
 module OperatingHoursHelper
 
   def inside_operating_hours
