@@ -24,27 +24,27 @@
 }
 
 - (IBAction)nwChanged:(id)sender {
-    [_dataMappingManager turnOutputOn:YES output:kOutputPinNW];
+    [_dataMappingManager toggleOutput:kOutputPinNW];
 }
 
 - (IBAction)dChanged:(id)sender {
-    [_dataMappingManager turnOutputOn:YES output:kOutputPinD];
+    [_dataMappingManager toggleOutput:kOutputPinD];
 }
 
 - (IBAction)neChanged:(id)sender {
-    [_dataMappingManager turnOutputOn:YES output:kOutputPinNE];
+    [_dataMappingManager toggleOutput:kOutputPinNE];
 }
 
 - (IBAction)seChanged:(id)sender {
-    [_dataMappingManager turnOutputOn:YES output:kOutputPinSE];
+    [_dataMappingManager toggleOutput:kOutputPinSE];
 }
 
 - (IBAction)pChanged:(id)sender {
-    [_dataMappingManager turnOutputOn:YES output:kOutputPinP];
+    [_dataMappingManager toggleOutput:kOutputPinP];
 }
 
 - (IBAction)gChanged:(id)sender {
-    [_dataMappingManager turnOutputOn:YES output:kOutputPinG];
+    [_dataMappingManager toggleOutput:kOutputPinG];
 }
 
 #pragma mark - PLDataMappingManagerDelegate

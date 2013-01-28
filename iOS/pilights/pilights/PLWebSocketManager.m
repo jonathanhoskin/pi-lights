@@ -70,9 +70,9 @@
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message {
     
-#ifdef DEBUG
-    NSLog(@"Websocket recieved message: %@",message);
-#endif
+//#ifdef DEBUG
+//    NSLog(@"Websocket recieved message: %@",message);
+//#endif
     
     [_delegate websocketDidRecieveMessage:message];
 }

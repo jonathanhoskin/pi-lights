@@ -21,9 +21,10 @@
 
 @property (nonatomic,assign) id <PLDataMappingManagerDelegate> delegate;
 @property (nonatomic,strong) PLWebSocketManager *webSocketManager;
+@property (nonatomic,strong) NSMutableDictionary *pinStates;
 
 - (void)turnAllOutputsOn:(BOOL)outputOn;
-- (void)turnOutputOn:(BOOL)outputOn output:(NSInteger)output;
+- (void)toggleOutput:(int)output;
 
 typedef enum {
     kOutputPinNW = 11,
@@ -32,6 +33,7 @@ typedef enum {
     kOutputPinSE = 8,
     kOutputPinP = 22,
     kOutputPinG = 23,
+    kOutputPinCount = 6
 } kOutputPinConstants;
 
 @end
