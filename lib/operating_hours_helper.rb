@@ -1,3 +1,5 @@
+require 'time'
+
 module OperatingHoursHelper
 
   def inside_operating_hours
