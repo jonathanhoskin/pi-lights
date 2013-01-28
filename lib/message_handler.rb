@@ -5,8 +5,8 @@ module MessageHandler
     puts "Message: #{msg}"
     data = JSON.parse(msg)
     puts "Data: #{data}"
-    handle_incoming_on_data(data,ws) if data["on"]
-    handle_incoming_off_data(data,ws) if data["off"]
+    handle_incoming_on_data(data) if data["on"]
+    handle_incoming_off_data(data) if data["off"]
     handle_incoming_status_request(ws) if data["status"]
   end
 
