@@ -29,7 +29,10 @@ module WebSocketServer
   end
 
   def send_to_connected_websockets(msg)
-    @connected_websockets.each {|ws| ws.send(msg)}
+    @connected_websockets.each do |websocket,websocket_attr|
+      puts "Sending message to websocket client: #{msg}"
+      websocket.send(msg)}
+    end
   end
 
 end
