@@ -1,4 +1,4 @@
 git add .
 git commit -m "Edit"
 git push
-git push pi master
+ssh pi 'cd pi-lights; git pull'
