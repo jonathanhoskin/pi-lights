@@ -26,20 +26,27 @@ static NSString* stringFromInt (int theInt) {
         _webSocketManager.delegate = self;
         [_webSocketManager openWebSocket];
         
-        _pinStates = [NSMutableDictionary dictionaryWithCapacity:20];
+        _outputPinStates = [NSMutableDictionary dictionaryWithCapacity:20];
+        _sensorPinStates = [NSMutableDictionary dictionaryWithCapacity:20];
     }
+    
     return self;
 }
 
 - (NSDictionary*)allOutputPins {
     return @{
-    [NSNumber numberWithInt:kOutputPinNW]:@"NW",
-    [NSNumber numberWithInt:kOutputPinD]:@"D",
-    [NSNumber numberWithInt:kOutputPinNE]:@"NE",
-    [NSNumber numberWithInt:kOutputPinSE]:@"SE",
-    [NSNumber numberWithInt:kOutputPinP]:@"P",
-    [NSNumber numberWithInt:kOutputPinG]:@"G"
+    numFromInt(kOutputPinNW):@"NW",
+    numFromInt(kOutputPinD):@"D",
+    numFromInt(kOutputPinNE):@"NE",
+    numFromInt(kOutputPinSE):@"SE",
+    numFromInt(kOutputPinP):@"P",
+    numFromInt(kOutputPinG):@"G"
     };
+}
+
+- (BOOL)outputIsOn:(NSNumber*)output {
+    int state = [_outputPinStates[[output stringValue]] integerValue];
+    return (state == 1);
 }
 
 - (void)turnAllOutputsOn:(BOOL)outputOn {
@@ -48,16 +55,14 @@ static NSString* stringFromInt (int theInt) {
     [_webSocketManager.websocket send:json];
 }
 
-- (void)toggleOutput:(int)output {
+- (void)toggleOutput:(NSNumber*)output {
 //    NSString *pinTitle = [self allOutputPins][numFromInt(output)];
 
 //    NSLog(@"Pin states: %@",_pinStates);
     
 //    NSLog(@"Toggle Pin: %@",pinTitle);
     
-    NSNumber *state = numFromInt([_pinStates[@"output"][stringFromInt(output)] integerValue]);
-    
-    NSString *json = [NSString stringWithFormat:([state isEqualToNumber:@0]) ? @"{\"on\":[%d]}" : @"{\"off\":[%d]}",output];
+    NSString *json = [NSString stringWithFormat:[self outputIsOn:output] ? @"{\"off\":[%@]}" : @"{\"on\":[%@]}",output];
     [_webSocketManager.websocket send:json];
 }
 
@@ -65,14 +70,24 @@ static NSString* stringFromInt (int theInt) {
 
 - (void)websocketDidRecieveMessage:(id)message {
 #ifdef DEBUG
-    NSLog(@"Websocket recieved message: %@",message);
+//    NSLog(@"Websocket recieved message: %@",message);
 #endif
     
     NSData *data = [message dataUsingEncoding:NSUTF8StringEncoding];
     id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-    NSLog(@"JSON: %@",json);
+//    NSLog(@"JSON: %@",json);
+    
+    [json[@"output"] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        _outputPinStates[key] = obj;
+    }];
+    
+    [json[@"sensor"] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+        _sensorPinStates[key] = obj;
+    }];
 
-    [_pinStates addEntriesFromDictionary:json];
+    [_delegate didMapIncomingData];
+    
+//    NSLog(@"Pin states: %@",_outputPinStates);
 }
 
 @end

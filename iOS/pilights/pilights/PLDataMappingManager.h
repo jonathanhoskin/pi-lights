@@ -11,9 +11,7 @@
 
 @protocol PLDataMappingManagerDelegate <NSObject>
 
-- (void)didMapIncomingSensorData:(id)data;
-- (void)didMapIncomingSwitchData:(id)data;
-- (void)didMapIncomingOutputData:(id)data;
+- (void)didMapIncomingData;
 
 @end
 
@@ -21,10 +19,12 @@
 
 @property (nonatomic,assign) id <PLDataMappingManagerDelegate> delegate;
 @property (nonatomic,strong) PLWebSocketManager *webSocketManager;
-@property (nonatomic,strong) NSMutableDictionary *pinStates;
+@property (nonatomic,strong) NSMutableDictionary *outputPinStates;
+@property (nonatomic,strong) NSMutableDictionary *sensorPinStates;
 
 - (void)turnAllOutputsOn:(BOOL)outputOn;
-- (void)toggleOutput:(int)output;
+- (void)toggleOutput:(NSNumber*)output;
+- (BOOL)outputIsOn:(NSNumber*)output;
 
 typedef enum {
     kOutputPinNW = 11,
