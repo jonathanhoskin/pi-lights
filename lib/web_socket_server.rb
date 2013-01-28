@@ -29,7 +29,7 @@ module WebSocketServer
   end
 
   def send_to_connected_websockets(msg)
-    @connected_websockets.each {|ws| ws.send msg}
+    @connected_websockets.each {|ws| ws.send(msg)}
   end
 
 end
