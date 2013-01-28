@@ -2,6 +2,7 @@ require 'json'
 
 module MessageHandler
   def handle_incoming_websocket_message(msg,ws)
+    puts "Message: #{msg}"
     data = JSON.parse(msg)
     puts "Data: #{data}"
     handle_incoming_on_data(data,ws) if data["on"]
