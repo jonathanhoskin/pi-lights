@@ -2,9 +2,6 @@ require 'activesupport'
 
 module OperatingHoursHelper
 
-  # LAT = -36.90194388138392
-  # LNG = 174.62602709730263
-
   def inside_operating_hours
     current_time = Time.now
     next_sunset = Time.parse(`python sunset.py`.chomp)
@@ -15,7 +12,7 @@ module OperatingHoursHelper
 
     # Before sunrise
     return true if !next_sunrise_is_tomorrow(next_sunrise,current_time)
-    
+
     false
   end
 
