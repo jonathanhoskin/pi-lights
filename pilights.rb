@@ -81,6 +81,10 @@ class PiLights
     end
   end
 
+  def output_pin_state(output)
+    `gpio -g read #{output}`.to_i
+  end
+
   def add_sensor_loop
     @sensor_periodic_timer_loop = EventMachine.add_periodic_timer(POLL_LOOP_TIME) { poll_sensor_pins }
   end
@@ -122,6 +126,7 @@ class PiLights
   def turn_output_on(output)
     puts "Turn on output: #{output}"
     `gpio -g write #{output} 1`
+    send_change_to_web_sockets(:output,output,1)
   end
 
   def turn_all_on
@@ -134,6 +139,7 @@ class PiLights
   def turn_output_off(output)
     puts "Turn off output: #{output}"
     `gpio -g write #{output} 0`
+    send_change_to_web_sockets(:output,output,0)
   end
 
   def turn_all_off
@@ -142,11 +148,24 @@ class PiLights
       return
     end
 
+    reset_cancelled_sensor_pins
+
     puts "Turn all off at #{Time.now}"
     LIGHT_OUTPUTS.each do |output|
       turn_output_off(output)
     end
   end
+
+  def add_manual_override(output)
+    @manual_override_outputs << output
+    reset_cancelled_sensor_pins
+  end
+
+  def delete_manual_override(output)
+    @manual_override_outputs.delete(output)
+    reset_cancelled_sensor_pins
+  end
+
 end
 
 PiLights.new.run

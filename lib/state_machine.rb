@@ -109,4 +109,33 @@ module StateMachine
     # puts "Should not hit here in set_pin_state_off"
     return false
   end
+
+  def reset_cancelled_sensor_pins
+    @pin_states.each_key do |key|
+      @pin_states[key][:cancelled] = false if @pin_states[key][:cancelled]
+    end
+  end
+
+  def all_sensor_pin_states
+    sensor_hash = [:sensor => nil]
+
+    @pin_states.each do |pin,data|
+      state = (data[:pin_state] == SENSOR_PIN_STATE_ON) ? 1 : 0
+      sensor_hash[:sensor][pin] = state
+    end
+
+    sensor_hash
+  end
+
+  def all_output_pin_states
+    output_hash = {:output => nil}
+
+    PiLights::LIGHT_OUTPUTS.each do |output|
+      state = output_pin_state(output)
+      output_hash[:output][output] = state
+    end
+
+    output_hash
+  end
+
 end

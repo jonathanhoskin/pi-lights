@@ -12,8 +12,8 @@ module WebSocketServer
         # path, query_string, origin, headers
 
         # Publish message to the client
-        ws.send "WS: Hello Client, you connected from #{handshake.origin}"
-        ws.send "WS: Connected clients: #{@connected_websockets}"
+        # ws.send "WS: Hello Client, you connected from #{handshake.origin}"
+        # ws.send "WS: Connected clients: #{@connected_websockets}"
       }
 
       ws.onclose {
@@ -23,9 +23,13 @@ module WebSocketServer
 
       ws.onmessage { |msg|
         puts "WS: Recieved message: #{msg}"
-        handle_websocket_message(msg,ws)
+        handle_incoming_websocket_message(msg,ws)
       }
     end
+  end
+
+  def send_to_connected_websockets(msg)
+    @connected_websockets.each {|ws| ws.send msg}
   end
 
 end
