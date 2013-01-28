@@ -4,13 +4,6 @@ GIT
   specs:
     eventmachine (1.0.0)
 
-GIT
-  remote: git://github.com/jonathanhoskin/sunrisesunset-ruby.git
-  revision: 46d34d828a95edd9d8a61c60feb3b1f83b4a7b1f
-  specs:
-    RubySunrise (0.3)
-      tzinfo
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -18,7 +11,6 @@ GEM
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.5.3)
     http_parser.rb (0.5.3)
-    tzinfo (0.3.35)
     websocket (1.0.7)
     websocket-eventmachine-base (1.0.2)
       eventmachine (~> 1.0)
@@ -33,7 +25,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  RubySunrise!
   em-websocket
   eventmachine!
   websocket-eventmachine-client
