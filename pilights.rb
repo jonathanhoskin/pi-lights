@@ -40,7 +40,7 @@ class PiLights
   end
 
   def run
-    puts "Starting"
+    puts "Starting..."
 
     EventMachine.run do
       Signal.trap('TERM') { EventMachine.stop }
@@ -55,6 +55,7 @@ class PiLights
 
       init_websocket_server
       add_sensor_loop
+      puts "Started"
     end
   end
 
@@ -85,8 +86,6 @@ class PiLights
   end
 
   def poll_sensor_pins
-    # print "\rPolling sensor pins at: #{Time.now}"
-    # STDOUT.flush
     SENSORS.each do |sensor|
       state = `gpio -g read #{sensor}`.to_i
       trigger_run_timer(sensor) if state == SENSOR_PIN_STATE_ON

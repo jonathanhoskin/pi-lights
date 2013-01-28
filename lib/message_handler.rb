@@ -15,9 +15,8 @@ module MessageHandler
     data["on"].each do |output|
       @manual_override_outputs << output
       turn_output_on(output)
+      ws.send({:output => [{output => :on}]}.to_json)
     end
-    
-    ws.send "Turned On: #{data["on"]}"
   end
 
   def handle_off_data(data,ws)
@@ -26,6 +25,7 @@ module MessageHandler
     data["off"].each do |output|
       @manual_override_outputs.delete(output)
       turn_output_off(output)
+      ws.send({:output => [{output => :off}]}.to_json)
     end
 
     ws.send "Turned Off"
