@@ -117,7 +117,7 @@ module StateMachine
   end
 
   def all_sensor_pin_states
-    sensor_hash = [:sensor => nil]
+    sensor_hash = {:sensor => {}}
 
     @pin_states.each do |pin,data|
       state = (data[:pin_state] == PiLights::SENSOR_PIN_STATE_ON) ? 1 : 0
@@ -128,7 +128,7 @@ module StateMachine
   end
 
   def all_output_pin_states
-    output_hash = {:output => nil}
+    output_hash = {:output => {}}
 
     PiLights::LIGHT_OUTPUTS.each do |output|
       state = output_pin_state(output)
