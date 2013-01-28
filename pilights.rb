@@ -97,12 +97,12 @@ class PiLights
   end
 
   def trigger_run_timer(pin)
-    puts "Triggered by pin #{pin} at #{Time.now}"
-
     unless inside_operating_hours
-      puts "Outside operating hours, not triggerring"
+      # puts "Outside operating hours, not triggerring"
       return
     end
+
+    puts "Triggered by pin #{pin} at #{Time.now}"
 
     if set_pin_state_on(pin)
       if @light_countdown_timer
