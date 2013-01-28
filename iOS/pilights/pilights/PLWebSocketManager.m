@@ -45,6 +45,7 @@
     
 //    [webSocket send:[NSString stringWithFormat:@"login=%@",_apiKey]];
     //    [webSocket send:[NSString stringWithFormat:@"login=%@",@"q6yVOLimw-OEMYCE5Qef"]];
+    [webSocket send:@"status"];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {

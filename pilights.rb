@@ -109,14 +109,17 @@ class PiLights
         puts "Cancelling last timer, replacing with new timer"
         EventMachine.cancel_timer(@light_countdown_timer)
         set_pin_state(@last_trigger_pin,{:cancelled => true}) unless @last_trigger_pin.nil?
+        send_change_to_websockets(:sensor,@last_trigger_pin,0);
       end
 
       @last_trigger_pin = pin
+      send_change_to_websockets(:sensor,@last_trigger_pin,1);
 
       @light_countdown_timer = EventMachine.add_timer(TRIGGER_WAIT_TIME) {
         @last_trigger_pin = nil
         turn_all_off if set_pin_state_off(pin)
         @light_countdown_timer = nil
+        send_change_to_websockets(:sensor,@last_trigger_pin,0);
       }
 
       turn_all_on
@@ -126,7 +129,7 @@ class PiLights
   def turn_output_on(output)
     puts "Turn on output: #{output}"
     `gpio -g write #{output} 1`
-    send_change_to_web_sockets(:output,output,1)
+    send_change_to_websockets(:output,output,1)
   end
 
   def turn_all_on
@@ -139,7 +142,7 @@ class PiLights
   def turn_output_off(output)
     puts "Turn off output: #{output}"
     `gpio -g write #{output} 0`
-    send_change_to_web_sockets(:output,output,0)
+    send_change_to_websockets(:output,output,0)
   end
 
   def turn_all_off
