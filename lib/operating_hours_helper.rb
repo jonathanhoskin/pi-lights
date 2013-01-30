@@ -7,6 +7,12 @@ module OperatingHoursHelper
     next_sunset = Time.parse(`python sunset.py`.chomp)
     next_sunrise = Time.parse(`python sunrise.py`.chomp)
 
+    puts "Current time: #{current_time}"
+    puts "next_sunrise: #{next_sunrise}"
+    puts "next_sunset: #{next_sunset}"
+
+    abort()
+    
     # After sunset, when sunrise and sunset are tomorrow
     return true if next_sunrise_is_tomorrow(next_sunrise,current_time) && next_sunset_is_tomorrow(next_sunset,current_time)
 
