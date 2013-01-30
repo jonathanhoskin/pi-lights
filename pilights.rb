@@ -5,10 +5,10 @@ Dir[File.dirname(__FILE__) + '/lib/*.rb'].each {|file| require file }
 
 class PiLights
   # Times in seconds
-  POLL_LOOP_TIME = 0.13
+  POLL_LOOP_TIME = 0.05
   TRIGGER_WAIT_TIME = 90
   MIN_RETRIGGER_INTERVAL = 30
-  SAFE_TRIGGER_INTERVAL = 2
+  SAFE_SECONDARY_TRIGGER_INTERVAL = 15
 
   SENSOR_PIN_STATE_OFF = 1
   SENSOR_PIN_STATE_ON = 0
@@ -28,7 +28,7 @@ class PiLights
   def initialize
     @manual_override_outputs = []
     @connected_websockets = {}
-    @last_trigger = Time.now - SAFE_TRIGGER_INTERVAL
+    @last_trigger = Time.now - SAFE_SECONDARY_TRIGGER_INTERVAL
     @last_trigger_pin = nil
     @light_countdown_timer
     @pin_states = {}
@@ -122,10 +122,10 @@ class PiLights
       send_change_to_websockets(:sensor,@last_trigger_pin,1);
 
       @light_countdown_timer = EventMachine.add_timer(TRIGGER_WAIT_TIME) {
+        send_change_to_websockets(:sensor,@last_trigger_pin,0);
         @last_trigger_pin = nil
         turn_all_off if set_pin_state_off(pin)
         @light_countdown_timer = nil
-        send_change_to_websockets(:sensor,@last_trigger_pin,0);
       }
 
       turn_all_on

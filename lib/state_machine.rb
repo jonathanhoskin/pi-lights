@@ -9,7 +9,7 @@ module StateMachine
   end
 
   def set_pin_state_on(pin)
-    safe_trigger_threshold = Time.now - PiLights::SAFE_TRIGGER_INTERVAL
+    safe_trigger_threshold = Time.now - PiLights::SAFE_SECONDARY_TRIGGER_INTERVAL
     if @last_trigger > safe_trigger_threshold && pin == @last_trigger_pin
       # print "\r"
       # print "Only just got triggered, will not turn on again: #{safe_trigger_threshold}"
