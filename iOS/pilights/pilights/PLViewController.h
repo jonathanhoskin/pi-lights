@@ -19,6 +19,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *seButton;
 @property (strong, nonatomic) IBOutlet UIButton *pButton;
 @property (strong, nonatomic) IBOutlet UIButton *gButton;
+@property (nonatomic,strong) UITextView *debugView;
 
 - (IBAction)switchChanged:(id)sender;
 - (IBAction)nwChanged:(id)sender;

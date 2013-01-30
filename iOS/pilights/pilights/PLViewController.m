@@ -84,10 +84,48 @@ static UIColor* offColor () {
     }];
 }
 
+- (void)showDebugMessageFieldWithText:(NSString*)string {
+    int height = 100;
+    int startY = self.view.bounds.size.height - height;  // 44 is toolbar height
+    
+    if (_debugView == nil) {
+        _debugView = [[UITextView alloc] initWithFrame:CGRectMake(0, startY, self.view.bounds.size.width, height)];
+        _debugView.editable = NO;
+        _debugView.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.7];
+        _debugView.textColor = [UIColor colorWithWhite:1 alpha:1];
+        _debugView.font = [UIFont fontWithName:@"HelveticaNeue" size:12];
+    }
+    
+    _debugView.alpha = 1.0;
+    _debugView.text = string;
+
+    if (![self.view.subviews containsObject:_debugView]) {
+        [self.view addSubview:_debugView];
+    }
+    
+    double delayInSeconds = 5;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        
+        [UIView animateWithDuration:1
+                         animations:^{
+                             [_debugView setAlpha:0.0];
+                         }
+                         completion:^(BOOL finished) {
+                             [_debugView removeFromSuperview];
+                         }];
+    });
+}
+
 #pragma mark - PLDataMappingManagerDelegate
 
-- (void)didMapIncomingData {
+- (void)didMapIncomingData:(id)data {
     [self updateControls];
+    
+#ifdef DEBUG
+    [self showDebugMessageFieldWithText:[[NSString stringWithFormat:@"%@",data] stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+#endif
+    
 }
 
 @end

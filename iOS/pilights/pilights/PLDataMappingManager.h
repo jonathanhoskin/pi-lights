@@ -11,7 +11,7 @@
 
 @protocol PLDataMappingManagerDelegate <NSObject>
 
-- (void)didMapIncomingData;
+- (void)didMapIncomingData:(id)data;
 
 @end
 

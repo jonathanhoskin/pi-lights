@@ -5,7 +5,7 @@ Dir[File.dirname(__FILE__) + '/lib/*.rb'].each {|file| require file }
 
 class PiLights
   # Times in seconds
-  POLL_LOOP_TIME = 0.1
+  POLL_LOOP_TIME = 0.2
   TRIGGER_WAIT_TIME = 90
   MIN_RETRIGGER_INTERVAL = 30
   SAFE_TRIGGER_INTERVAL = 2

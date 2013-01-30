@@ -85,7 +85,7 @@ static NSString* stringFromInt (int theInt) {
         _sensorPinStates[key] = obj;
     }];
 
-    [_delegate didMapIncomingData];
+    [_delegate didMapIncomingData:json];
     
 //    NSLog(@"Pin states: %@",_outputPinStates);
 }
