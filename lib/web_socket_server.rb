@@ -22,7 +22,7 @@ module WebSocketServer
       }
 
       ws.onmessage { |msg|
-        # puts "WS: Recieved message: #{msg}"
+        puts "WS: Recieved message: #{msg}"
         handle_incoming_websocket_message(msg,ws)
       }
     end
