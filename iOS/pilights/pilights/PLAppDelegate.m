@@ -16,6 +16,8 @@
     [[NSUserDefaults standardUserDefaults] setValue:@"raspberrypi.local" forKey:@"webSocketServer"];
     [[NSUserDefaults standardUserDefaults] setInteger:8090 forKey:@"webSocketPort"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 
     return YES;
 }

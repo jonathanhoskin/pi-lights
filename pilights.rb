@@ -108,9 +108,9 @@ class PiLights
       return
     end
 
-    puts "Triggered by pin #{pin} at #{Time.now}"
-
     if set_pin_state_on(pin)
+      puts "Triggered by pin #{pin} at #{Time.now}"
+        
       if @light_countdown_timer
         puts "Cancelling last timer, replacing with new timer"
         EventMachine.cancel_timer(@light_countdown_timer)
