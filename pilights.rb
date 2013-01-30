@@ -5,7 +5,7 @@ Dir[File.dirname(__FILE__) + '/lib/*.rb'].each {|file| require file }
 
 class PiLights
   # Times in seconds
-  POLL_LOOP_TIME = 0.05
+  POLL_LOOP_TIME = 0.33
   TRIGGER_WAIT_TIME = 90
   MIN_RETRIGGER_INTERVAL = 30
   SAFE_SECONDARY_TRIGGER_INTERVAL = 15
@@ -87,14 +87,14 @@ class PiLights
   end
 
   def add_sensor_loop
-    @sensor_periodic_timer_loop = EventMachine.add_periodic_timer(POLL_LOOP_TIME) { poll_sensor_pins }
+    SENSORS.each do |sensor|
+      EventMachine.add_periodic_timer(POLL_LOOP_TIME) { poll_sensor_pin(sensor) }
+    end
   end
 
-  def poll_sensor_pins
-    SENSORS.each do |sensor|
-      state = `gpio -g read #{sensor}`.to_i
-      trigger_run_timer(sensor) if state == SENSOR_PIN_STATE_ON
-    end
+  def poll_sensor_pin(sensor)
+    state = `gpio -g read #{sensor}`.to_i
+    trigger_run_timer(sensor) if state == SENSOR_PIN_STATE_ON
   end
 
   def trigger_run_timer(pin)
@@ -110,7 +110,7 @@ class PiLights
 
     if set_pin_state_on(pin)
       puts "Triggered by pin #{pin} at #{Time.now}"
-        
+
       if @light_countdown_timer
         puts "Cancelling last timer, replacing with new timer"
         EventMachine.cancel_timer(@light_countdown_timer)
