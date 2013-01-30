@@ -2,16 +2,16 @@ require 'json'
 
 module MessageHandler
   def handle_incoming_websocket_message(msg,ws)
-    puts "Message: #{msg}"
+    # puts "Message: #{msg}"
     data = JSON.parse(msg)
-    puts "Data: #{data}"
+    # puts "Data: #{data}"
     handle_incoming_on_data(data) if data["on"]
     handle_incoming_off_data(data) if data["off"]
     handle_incoming_status_request(ws) if data["status"]
   end
 
   def handle_incoming_on_data(data)
-    puts "Data in handle ON: #{data}"
+    # puts "Data in handle ON: #{data}"
 
     data["on"].each do |output|
       add_manual_override(output)
@@ -20,7 +20,7 @@ module MessageHandler
   end
 
   def handle_incoming_off_data(data)
-    puts "Data in handle OFF: #{data}"
+    # puts "Data in handle OFF: #{data}"
 
     data["off"].each do |output|
       delete_manual_override(output)

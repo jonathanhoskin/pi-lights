@@ -6,7 +6,7 @@ module WebSocketServer
     EM::WebSocket.run(:host => "0.0.0.0", :port => 8090) do |ws|
       ws.onopen { |handshake|
         @connected_websockets[ws] = Time.now
-        puts "WS: WebSocket connection open"
+        puts "WS: Connection open"
 
         # Access properties on the EM::WebSocket::Handshake object, e.g.
         # path, query_string, origin, headers
@@ -22,7 +22,7 @@ module WebSocketServer
       }
 
       ws.onmessage { |msg|
-        puts "WS: Recieved message: #{msg}"
+        # puts "WS: Recieved message: #{msg}"
         handle_incoming_websocket_message(msg,ws)
       }
     end
@@ -30,7 +30,7 @@ module WebSocketServer
 
   def send_to_connected_websockets(msg)
     @connected_websockets.each do |websocket,websocket_attr|
-      puts "Sending message to websocket client: #{msg}"
+      # puts "Sending message to websocket client: #{msg}"
       websocket.send(msg)
     end
   end
