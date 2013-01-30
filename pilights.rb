@@ -48,6 +48,7 @@ class PiLights
 
       EventMachine.add_shutdown_hook {
         puts "Shutting down; Cleaning up"
+        @manual_override_outputs = []
         turn_all_off
         `gpio unexportall`
         puts "Done"
@@ -99,6 +100,11 @@ class PiLights
   def trigger_run_timer(pin)
     unless inside_operating_hours
       # puts "Outside operating hours, not triggerring"
+      return
+    end
+
+    if @manual_override_outputs.length > 0
+      puts "Manual override is in place, not triggering"
       return
     end
 
