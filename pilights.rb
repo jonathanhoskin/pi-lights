@@ -133,8 +133,13 @@ class PiLights
   end
 
   def turn_output_on(output)
-    puts "Turn on output: #{output}"
-    `gpio -g write #{output} 1`
+    # Only turn it on if it is off
+    if output_pin_state(output) == 0
+      puts "Turn on output: #{output}"
+      `gpio -g write #{output} 1`
+    end
+
+    # Always send the state change, to correct sync issues
     send_change_to_websockets(:output,output,1)
   end
 
@@ -146,8 +151,13 @@ class PiLights
   end
 
   def turn_output_off(output)
-    puts "Turn off output: #{output}"
-    `gpio -g write #{output} 0`
+    # Only turn if off if it is on
+    if output_pin_state(output) == 1
+      puts "Turn off output: #{output}"
+      `gpio -g write #{output} 0`
+    end
+
+    # Always send the state change, to correct sync issues
     send_change_to_websockets(:output,output,0)
   end
 
