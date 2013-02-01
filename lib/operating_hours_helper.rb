@@ -7,7 +7,7 @@ module OperatingHoursHelper
     next_sunset = Time.parse(`python sunset.py`.chomp)
     next_sunrise = Time.parse(`python sunrise.py`.chomp)
 
-    puts "Checking operating hours"
+    # puts "Checking operating hours"
     puts "next_sunset: #{next_sunset}"
     puts "next_sunrise: #{next_sunrise}"
 
@@ -36,7 +36,7 @@ module OperatingHoursHelper
   def end_of_today
     now = Time.now
     end_of_today = Time.local(now.year, now.month, now.day, 23, 59, 59, 999999.999)
-    puts "End of today: #{end_of_today}"
+    # puts "End of today: #{end_of_today}"
     return end_of_today
   end
 
