@@ -14,9 +14,9 @@ class PiLights
   SENSOR_PIN_STATE_ON = 0
 
   LIGHT_OUTPUTS = [11,18,8,22,23,24]
-  SENSORS = [0,1,15]
+  # SENSORS = [0,1,15]
   # SENSORS = [0,1,14,15]
-  # SENSORS = [0,1,4,14,15]
+  SENSORS = [0,1,4,14,15]
   # SENSORS = [0,1,4,15]
   SWITCHES = [9,10,25]
 
