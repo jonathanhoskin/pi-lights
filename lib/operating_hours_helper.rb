@@ -11,12 +11,6 @@ module OperatingHoursHelper
     puts "next_sunset: #{next_sunset}"
     puts "next_sunrise: #{next_sunrise}"
 
-    # After sunset, when sunrise and sunset are tomorrow
-    if next_sunrise_is_tomorrow(next_sunrise,current_time) && next_sunset_is_tomorrow(next_sunset,current_time)
-      puts "After sunset, when sunrise and sunset are tomorrow"
-      return true 
-    end
-
     # Before sunrise, when sunrise is today
     if !next_sunrise_is_tomorrow(next_sunrise,current_time)
       puts "Before sunrise, when sunrise is today"
@@ -24,9 +18,15 @@ module OperatingHoursHelper
     end
 
     # After sunset, when sunset is earlier today, sunrise is tomorrow
-    if next_sunrise_is_tomorrow(next_sunrise,current_time) && next_sunset < current_time
-      puts "After sunset, when sunset is earlier today, sunrise is tomorrow"
-      return true
+    #if next_sunrise_is_tomorrow(next_sunrise,current_time) && next_sunset < current_time
+    #  puts "After sunset, when sunset is earlier today, sunrise is tomorrow"
+    #  return true
+    #end
+
+    # After sunset, when sunrise and sunset are tomorrow
+    if next_sunrise_is_tomorrow(next_sunrise,current_time) && next_sunset_is_tomorrow(next_sunset,current_time)
+      puts "After sunset, when sunrise and sunset are tomorrow"
+      return true 
     end
 
     puts "Not inside operating hours"
