@@ -5,7 +5,7 @@ from dateutil import tz
 obs = ephem.Observer()
 obs.lat = '-36.9'
 obs.long= '174.6'
-obs.date = datetime.now() #.replace(hour=0, minute=0, second=0, microsecond=0)
+obs.date = datetime.datetime.utcnow() #.replace(hour=0, minute=0, second=0, microsecond=0)
 
 from_zone = tz.tzutc()
 to_zone = tz.tzlocal()
