@@ -8,12 +8,12 @@ module OperatingHoursHelper
     next_sunrise = Time.parse(`python sunrise.py`.chomp)
 
     # puts "Checking operating hours"
-    puts "next_sunset: #{next_sunset}"
-    puts "next_sunrise: #{next_sunrise}"
+    # puts "next_sunset: #{next_sunset}"
+    # puts "next_sunrise: #{next_sunrise}"
 
     # Before sunrise, when sunrise is today
     if !next_sunrise_is_tomorrow(next_sunrise,current_time)
-      puts "Before sunrise, when sunrise is today"
+      # puts "Before sunrise, when sunrise is today"
       return true
     end
 
@@ -25,11 +25,11 @@ module OperatingHoursHelper
 
     # After sunset, when sunrise and sunset are tomorrow
     if next_sunrise_is_tomorrow(next_sunrise,current_time) && next_sunset_is_tomorrow(next_sunset,current_time)
-      puts "After sunset, when sunrise and sunset are tomorrow"
+      # puts "After sunset, when sunrise and sunset are tomorrow"
       return true 
     end
 
-    puts "Not inside operating hours"
+    # puts "Not inside operating hours"
     false
   end
 
