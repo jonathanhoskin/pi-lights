@@ -1,22 +1,17 @@
-GIT
-  remote: git://github.com/jonathanhoskin/eventmachine.git
-  revision: 2a082b68be635803baf16256b69140aa7c3a4331
-  specs:
-    eventmachine (1.0.0)
-
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
-    em-websocket (0.4.0)
+    em-websocket (0.5.1)
       eventmachine (>= 0.12.9)
-      http_parser.rb (~> 0.5.3)
-    http_parser.rb (0.5.3)
-    websocket (1.0.7)
-    websocket-eventmachine-base (1.0.2)
+      http_parser.rb (~> 0.6.0)
+    eventmachine (1.0.3)
+    http_parser.rb (0.6.0)
+    websocket (1.1.4)
+    websocket-eventmachine-base (1.1.0)
       eventmachine (~> 1.0)
       websocket (~> 1.0)
       websocket-native (~> 1.0)
-    websocket-eventmachine-client (1.0.1)
+    websocket-eventmachine-client (1.1.0)
       websocket-eventmachine-base (~> 1.0)
     websocket-native (1.0.0)
     wiringpi (1.1.0)
@@ -26,6 +21,6 @@ PLATFORMS
 
 DEPENDENCIES
   em-websocket
-  eventmachine!
+  eventmachine
   websocket-eventmachine-client
   wiringpi

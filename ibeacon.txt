@@ -1,0 +1,7 @@
+31 25 C5 FF 2B BA 4D 6C 89 4F 19 FF 39 D4 20 66
+
+sudo hciconfig hci0 down
+sudo hciconfig hci0 up
+sudo hciconfig hci0 noleadv
+sudo hciconfig hci0 leadv 0
+sudo hcitool -i hci0 cmd 0x08 0x0008 1E 02 01 1A 1A FF 4C 00 02 15 31 25 C5 FF 2B BA 4D 6C 89 4F 19 FF 39 D4 20 66 C5 00

@@ -1,0 +1,11 @@
+
+pinout: http://www.megaleecher.net/sites/default/files/images/raspberry-pi-rev2-gpio-pinout.jpg
+
+wiring_pi hasn't gone anywhere, too complicated: http://wiringpi.com/
+
+pi_piper is way better now: https://github.com/jwhitehorn/pi_piper
+
+ibeacon here: https://learn.adafruit.com/pibeacon-ibeacon-with-a-raspberry-pi/setting-up-the-pi
+
+CSR Bluetooth 4.0 module - ordered 14/6/14: http://www.trademe.co.nz/MyTradeMe/PurchaseSummary.aspx?asid=110340879&isBuyer=True
+
